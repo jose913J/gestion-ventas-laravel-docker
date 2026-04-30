@@ -20,14 +20,14 @@ RUN chmod -R 777 /var/www/html/storage
 # Instalar dependencias
 RUN composer install --no-dev --optimize-autoloader
 
-# Ejecutar migraciones SIN las de autenticación
-RUN php artisan migrate --force --pretend
-
-# Optimización
+# Limpiar y cachear configuraciones (SIN migraciones)
 RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
+RUN php artisan config:clear
 
 EXPOSE 80
+
+CMD ["/start.sh"]
 
 CMD ["/start.sh"]
