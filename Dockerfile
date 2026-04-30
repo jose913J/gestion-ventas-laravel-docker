@@ -14,11 +14,16 @@ ENV APP_ENV production
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 
-# Permitir que composer corra como root
-ENV COMPOSER_ALLOW_SUPERUSER 1
+# Permisos para storage
+RUN chmod -R 777 /var/www/html/storage
 
-# Ejecutar comandos de Laravel
+# Instalar dependencias
 RUN composer install --no-dev --optimize-autoloader
+
+# Ejecutar migraciones SIN las de autenticación
+RUN php artisan migrate --force --pretend
+
+# Optimización
 RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
