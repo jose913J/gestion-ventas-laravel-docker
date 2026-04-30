@@ -31,3 +31,4 @@ EXPOSE 80
 CMD ["/start.sh"]
 
 CMD ["/start.sh"]
+Elimino migraciones automáticas del Dockerfile
